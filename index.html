@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>Solo "D" y nadie mas</title>
+    <title>Edición de Video</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -17,6 +18,7 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
+            overflow: hidden; /* Para evitar el desplazamiento vertical debido a la lluvia */
         }
 
         #particles-js {
@@ -31,7 +33,7 @@
             background-color: #000;
             width: 400px; /* Ajustado para un cuadrado más grande */
             height: 400px; /* Ajustado para un cuadrado más grande */
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.9); /* Aumentada la intensidad de la sombra */
             display: none;
             border-radius: 10px;
             animation: aparecer 1s ease forwards;
@@ -41,40 +43,44 @@
         .spotify-logo {
             position: absolute;
             left: 10px;
-            bottom: 10px; /* Ajustado para colocar en la esquina inferior izquierda */
-            width: 30px; /* Ajustado para el tamaño más pequeño del logo de Spotify */
+            bottom: 10px;
+            width: 30px;
+            filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.7)); /* Aumentada la sombra al logo de Spotify */
         }
 
         .spotify-text {
             position: absolute;
-            left: 50px; /* Ajustado para posicionar a la derecha del logo */
-            bottom: 15px; /* Ajustado para colocar en la esquina inferior izquierda */
-            font-size: 18px; /* Tamaño de letra ajustado */
+            left: 50px;
+            bottom: 15px;
+            font-size: 18px;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7), 2px 2px 3px rgba(255, 255, 255, 0.5); /* Añadido sombreado a las letras de Spotify */
         }
 
         .small-image {
             position: absolute;
             left: 10px;
-            top: 30px; /* Ajustado para colocar a la misma altura que la imagen */
-            width: 70px; /* Ajustado para el tamaño deseado de la imagen */
-            height: auto; /* Mantener la proporción de la imagen */
-            border: 2px solid #fff; /* Añadido un borde blanco */
-            border-radius: 5px; /* Añadida una pequeña curvatura al borde */
+            top: 30px;
+            width: 60px;
+            height: auto;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.7)); /* Aumentada la sombra a la imagen */
         }
 
         .song-text {
             position: absolute;
-            left: 90px; /* Ajustado para posicionar a la derecha de la imagen */
-            top: 40px; /* Ajustado para colocar un poco más abajo */
-            width: 330px; /* Ajustado para el ancho del cuadrado */
-            font-size: 14px; /* Bajado el tamaño de la letra */
-            white-space: nowrap; /* Evitar saltos de línea */
-            overflow: hidden; /* Ocultar el texto que desborda */
-            text-overflow: ellipsis; /* Agregar puntos suspensivos para el texto que desborda */
+            left: 22px;
+            top: 53px;
+            width: 330px;
+            font-size: 16px; /* Aumentado el tamaño de la letra */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 3px 3px 4px rgba(255, 255, 255, 0.7); /* Aumentada la sombra blanca al texto de la canción */
         }
 
         button {
-            background-color: #333;
+            background-color: #000000;
             color: #fff;
             padding: 10px 20px;
             font-size: 16px;
@@ -82,6 +88,7 @@
             cursor: pointer;
             border-radius: 20px;
             transition: background-color 0.3s ease;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7), 2px 2px 3px rgba(255, 255, 255, 0.5); /* Añadido sombreado a las letras del botón */
         }
 
         button:hover {
@@ -105,12 +112,11 @@
         <img class="spotify-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" alt="Spotify Logo">
         <div class="spotify-text">Spotify</div>
         <img class="small-image" src="Cancion1.jpg" alt="Cancion1">
-        <div class="song-text"></div>
+        <div class="song-text">James Arthur - Car's Outside</div>
     </div>
 
     <audio id="miAudio" src="musica.mp3"></audio>
 
-    <script src="particles.js"></script>
     <script>
         function iniciarConteo() {
             var boton = document.querySelector('button');
