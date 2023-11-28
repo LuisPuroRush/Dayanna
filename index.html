@@ -14,7 +14,7 @@
             font-family: 'Arial', sans-serif;
             text-align: center;
             background-color: #1a1a1a;
-            color: #f2f2f2;
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -78,6 +78,10 @@
             overflow: hidden;
             text-overflow: ellipsis;
             text-shadow: 3px 3px 4px rgba(255, 255, 255, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.5;
         }
 
         .lyrics-container {
@@ -93,17 +97,34 @@
             color: #fff;
             display: flex;
             flex-direction: column;
-            animation: fadeIn 2s ease, fadeOut 2s ease forwards 45s;
         }
 
-        .fade-in-bottom {
-            animation: fadeInBottom 2s ease;
+        .lyrics-line {
+            overflow: hidden;
+            white-space: nowrap;
+            opacity: 0;
+            animation: fadeInUp 1s forwards, fadeOut 1s forwards 4s;
+            display: flex;
+            align-items: center;
         }
 
-        @keyframes fadeIn {
+        .lyrics-line span {
+            opacity: 0;
+            animation: paint 2s forwards;
+            display: block;
+            margin: 5px 0;
+        }
+
+        @keyframes paint {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(-20px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -120,14 +141,12 @@
             }
         }
 
-        @keyframes fadeInBottom {
+        @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(20px);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
             }
         }
 
@@ -165,17 +184,7 @@
         <div class="spotify-text">Spotify</div>
         <img class="small-image" src="Cancion1.jpg" alt="Cancion1">
         <div class="song-text">James Arthur - Car's Outside</div>
-        <div class="lyrics-container">
-            <div class="lyrics-line fade-in-bottom">Estoy empacando mis maletas que no desempaqué la última vez</div>
-            <div class="lyrics-line fade-in-bottom">I'm packin' my bags that I didn't unpack the last time</div>
-            <div class="lyrics-line fade-in-bottom">Estoy diciendo "Nos vemos de nuevo", tantas veces que se está convirtiendo en mi lema.</div>
-            <div class="lyrics-line fade-in-bottom">I'm sayin', "See you again, " so many times, it's becoming my tagline</div>
-            <!-- Agregar el resto de las líneas... -->
-            <!-- ... -->
-            <!-- ... -->
-            <div class="lyrics-line fade-in-bottom">No quiero dejarte más</div>
-            <div class="lyrics-line fade-in-bottom">Don't wanna leave you anymore</div>
-        </div>
+        <div class="lyrics-container" id="lyrics-container"></div>
     </div>
 
     <audio id="miAudio" src="musica.mp3"></audio>
@@ -200,9 +209,105 @@
                     clearInterval(intervalo);
                     cuadrado.style.display = 'block'; 
                     boton.style.display = 'none'; 
+                    mostrarLetra();
                 }
             }, 1000);
         }
+
+        // Función para mostrar la letra línea por línea
+        function mostrarLetra() {
+            var lyricsContainer = document.getElementById('lyrics-container');
+            var lyrics = [
+                "Estoy empacando mis maletas que no desempaqué la última vez",
+                "Estoy diciendo 'Nos vemos de nuevo', tantas veces que se está convirtiendo en mi lema.",
+                "Pero sabes la verdad, prefiero abrazarte",
+                "Que intentar tomar este vuelo",
+                "Tantas cosas que preferiría decir",
+                "Pero por ahora es un adiós.",
+                "Dices que siempre me voy",
+                "Tú, cuando duermes solo",
+                "Pero el auto está afuera.",
+                "Pero no quiero ir esta noche",
+                "No voy a entrar en el Addison Lee",
+                "A menos que hagas las maletas",
+                "Vienes conmigo",
+                "Estoy cansado de amar desde lejos",
+                "Y nunca estar donde estás",
+                "Cierra las ventanas, cierra las puertas.",
+                "No quiero dejarte más",
+                "Oh-oh, ah",
+                "Oh-oh, ah",
+                "Estoy mirando las mismas cuatro paredes en un hotel diferente",
+                "Es un sentimiento desconocido pero lo conozco muy bien",
+                "Oh, pero sabes la verdad, prefiero abrazarte",
+                "Que este móvil en mi mano",
+                "Pero supongo que servirá, porque para ti",
+                "Aumentaría mi factura de teléfono",
+                "Dices que siempre me voy",
+                "Tú, cuando más me necesitas",
+                "Pero el auto está afuera.",
+                "Pero no quiero ir esta noche",
+                "No voy a entrar en el Addison Lee",
+                "A menos que hagas las maletas",
+                "Vienes conmigo",
+                "Estoy cansado de amar desde lejos",
+                "Y nunca estar donde estás",
+                "Cierra las ventanas, cierra las puertas.",
+                "No quiero dejarte más",
+                "Ooh-ooh, ah",
+                "Ooh-ooh, ah",
+                "Ooh-ooh, ah",
+                "Ooh-ooh, ah",
+                "Ooh-ooh, ah",
+                "Ooh-ooh, ah",
+                "No quiero dejarte",
+                "No, ya no quiero dejarte",
+                "No quiero dejarte",
+                "no quiero dejarte",
+                "(Ooh-ooh, ah) No quiero dejarte",
+                "(Ooh-ooh, ah) No quiero dejarte",
+                "No quiero dejarte más",
+            ];
+
+            // Función para mostrar las líneas de la letra
+            function mostrarLinea(index) {
+                var linea = lyrics[index];
+                var letra = document.createElement('div');
+                letra.className = 'lyrics-line fade-in-bottom';
+                letra.innerHTML = "<span>" + linea + "</span>";
+                lyricsContainer.appendChild(letra);
+
+                // Hacer scroll hacia abajo para mostrar la nueva línea
+                lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
+
+               // Cambia el tiempo de animación de 4s a 2s
+setTimeout(function() {
+    letra.style.opacity = 1;
+    letra.querySelector('span').style.animation = 'paint 2s forwards';
+}, 1000 * index);
+
+            }
+
+            // Mostrar líneas una por una
+            for (var i = 0; i < lyrics.length; i++) {
+                setTimeout(mostrarLinea.bind(null, i), 2000 * i);
+            }
+        }
+        // Después de la línea audio.play();
+
+audio.addEventListener('loadedmetadata', function() {
+    // Obtener la duración total del audio
+    var duracionTotal = audio.duration;
+
+    // Mostrar la letra y ajustar el tiempo de animación
+    cuadrado.style.display = 'block'; 
+    boton.style.display = 'none'; 
+    mostrarLetra();
+
+    // Ajustar el tiempo de animación basado en la duración total de la canción
+    velocidadAnimacion = duracionTotal / lyrics.length;
+});
+
     </script>
 </body>
 </html>
