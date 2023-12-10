@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Dayanna❤️</title>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="rainyday.js-master/src/rainyday.js"></script>
     <style>
        body {
             margin: 0;
@@ -202,6 +200,30 @@
         button:hover {
             background-color: #555;
         }
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            color: #fff;
+            text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+            z-index: 3;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            opacity: 1; /* Cambiado a 1 para que aparezca inmediatamente */
+            animation: fadeOut 3s forwards 3s; /* Agregado para la animación de desaparición en 3 segundos */
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
@@ -213,7 +235,8 @@
             <source src="Spotify.mp4" type="video/mp4">
             Tu navegador no soporta el tag de video.
         </video>
-    </div>
+        <div class="overlay-text" id="overlay-text">NO QUIERO DEJARTE NUNCA MÁS</div>
+    </div>    
 
     <div class="container" id="cuadrado">
         <img class="spotify-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" alt="Spotify Logo">
@@ -223,14 +246,15 @@
         <div class="lyrics-container" id="lyrics-container"></div>
     </div>
 
-    <audio id="miAudio" src="musica.mp3"></audio>
+    <audio id="miAudio" src="Cancion1.mp3"></audio>
 
     <script>
-       function iniciarConteo() {
+      function iniciarConteo() {
             var boton = document.querySelector('button');
             var cuadrado = document.getElementById('cuadrado');
             var audio = document.getElementById('miAudio');
             var overlay = document.getElementById('overlay');
+            var overlayText = document.getElementById('overlay-text');
 
             // Reproducir la música
             audio.play();
@@ -238,10 +262,11 @@
             // Ocultar el botón
             boton.style.display = 'none';
 
-            // Mostrar el overlay con el video
+            // Mostrar el overlay con el video y el texto
             overlay.style.display = 'block';
+            overlayText.style.display = 'block';
 
-            var tiempo = 10;
+            var tiempo = 3;
             boton.innerHTML = tiempo;
 
             var intervalo = setInterval(function() {
@@ -250,21 +275,24 @@
                     boton.innerHTML = tiempo;
                 } else {
                     clearInterval(intervalo);
-                    overlay.style.display = 'none'; // Ocultar el video y desvanecer
-                    cuadrado.style.display = 'block'; // Mostrar el contenedor
-                    mostrarLetra();
+                    overlayText.style.animation = 'fadeOut 3s forwards 0s'; // Iniciar animación de desaparición
+                    setTimeout(function() {
+                        overlay.style.display = 'none'; // Ocultar el video y desvanecer
+                        cuadrado.style.display = 'block'; // Mostrar el contenedor
+                        cuadrado.style.animation = 'aparecerContenedor 1s ease forwards'; // Animación de aparición del contenedor
+                        mostrarLetra();
+                    }, 3000);
                 }
             }, 1000);
         }
 
-    
         function mostrarLetra() {
             var lyricsContainer = document.getElementById('lyrics-container');
             var lyrics = [
-                
+                "I'm sorry, but I don't have the lyrics for this song.",
+                // ... Agrega las líneas de letras de tu canción aquí ...
             ];
 
-            
             function mostrarLinea(index) {
                 var linea = lyrics[index];
                 var letra = document.createElement('div');
@@ -274,33 +302,68 @@
 
                 lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
 
-              
-setTimeout(function() {
-    letra.style.opacity = 1;
-    letra.querySelector('span').style.animation = 'paint 2s forwards';
-}, 1000 * index);
-
+                setTimeout(function() {
+                    letra.style.opacity = 1;
+                    letra.querySelector('span').style.animation = 'paint 2s forwards';
+                }, 1000 * index);
             }
 
-         
             for (var i = 0; i < lyrics.length; i++) {
                 setTimeout(mostrarLinea.bind(null, i), 2000 * i);
             }
         }
-        
 
-audio.addEventListener('loadedmetadata', function() {
-   
-    var duracionTotal = audio.duration;
+        audio.addEventListener('loadedmetadata', function() {
+            var duracionTotal = audio.duration;
 
-  
-    cuadrado.style.display = 'block'; 
-    boton.style.display = 'none'; 
-    mostrarLetra();
+            cuadrado.style.display = 'block';
+            boton.style.display = 'none';
+            mostrarLetra();
 
-    
-    velocidadAnimacion = duracionTotal / lyrics.length;
-});
+            velocidadAnimacion = duracionTotal / lyrics.length;
+
+            // Ocultar el video de Spotify después de 5 segundos
+            setTimeout(function() {
+                document.getElementById('video').style.display = 'none';
+            }, 5000);
+        });
+
+        function mostrarLetra() {
+    var lyricsContainer = document.getElementById('lyrics-container');
+    var lyrics = [
+        "¿Por qué dices que siempre me voy?",
+        "Cuando estás durmiendo sola",
+        "Pero el coche que llamaste está afuera",
+        "Pero no quiero irme esta noche",
+        "No voy a entrar a tu Ciudad",
+        "A menos que hagas las maletas",
+        "Y te vengas conmigo",
+        "Estoy cansado de amarte de lejos",
+        "El nunca estar, donde tú estás",
+        "Cierro puertas, cierro ventanas",
+        "NO QUIERO DEJARTE NUNCA MÁS",
+    ];
+
+    function mostrarLinea(index) {
+        var linea = lyrics[index];
+        var letra = document.createElement('div');
+        letra.className = 'lyrics-line fade-in-bottom';
+        letra.innerHTML = "<span>" + linea + "</span>";
+        lyricsContainer.appendChild(letra);
+
+        lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
+
+        setTimeout(function () {
+            letra.style.opacity = 1;
+            letra.querySelector('span').style.animation = 'paint 2s forwards';
+        }, 1000 * index);
+    }
+
+    for (var i = 0; i < lyrics.length; i++) {
+        setTimeout(mostrarLinea.bind(null, i), 2000 * i);
+    }
+}
+
 
     </script>
 </body>
