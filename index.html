@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="rainyday.js-master/src/rainyday.js"></script>
     <style>
-        body {
+       body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
@@ -39,6 +39,7 @@
             border-radius: 10px;
             animation: aparecer 1s ease forwards;
             position: relative;
+            z-index: 1;
         }
 
         .spotify-logo {
@@ -103,8 +104,7 @@
             overflow: hidden;
             white-space: nowrap;
             opacity: 0;
-            animation: fadeInUp 1s forwards, fadeOut 1s forwards 4
-    
+            animation: fadeInUp 1s forwards, fadeOut 1s forwards 4;
         }
 
         .lyrics-line span {
@@ -112,6 +112,26 @@
             animation: paint 2s forwards;
             display: block;
             margin: 5px 0;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: none;
+            z-index: 2;
+            animation: overlayFadeIn 2s forwards;
+        }
+
+        #video {
+            width: 80%;
+            height: 80%;
+            object-fit: cover;
+            opacity: 0;
+            animation: fadeIn 2s forwards 2s, fadeOut 2s forwards 10s;
         }
 
         @keyframes paint {
@@ -149,6 +169,24 @@
             }
         }
 
+        @keyframes overlayFadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
         button {
             background-color: #000000;
             color: #fff;
@@ -164,40 +202,46 @@
         button:hover {
             background-color: #555;
         }
-
-        @keyframes aparecer {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
     </style>
 </head>
 <body>
     <div id="particles-js"></div>
     <button onclick="iniciarConteo()">Presiona para comenzar</button>
+
+    <div class="overlay" id="overlay">
+        <video id="video" autoplay loop muted>
+            <source src="Spotify.mp4" type="video/mp4">
+            Tu navegador no soporta el tag de video.
+        </video>
+    </div>
+
     <div class="container" id="cuadrado">
         <img class="spotify-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" alt="Spotify Logo">
         <div class="spotify-text">Spotify</div>
         <img class="small-image" src="Cancion1.jpg" alt="Cancion1">
-        <div class="song-text">James Arthur - Car's Outside </div>
+        <div class="song-text">James Arthur - Car's Outside</div>
         <div class="lyrics-container" id="lyrics-container"></div>
     </div>
 
-    <audio id="miAudio" src="Cancion1.mp3"></audio>
+    <audio id="miAudio" src="musica.mp3"></audio>
 
     <script>
-        function iniciarConteo() {
+       function iniciarConteo() {
             var boton = document.querySelector('button');
             var cuadrado = document.getElementById('cuadrado');
             var audio = document.getElementById('miAudio');
+            var overlay = document.getElementById('overlay');
 
             // Reproducir la música
             audio.play();
 
-            var tiempo = 3;
+            // Ocultar el botón
+            boton.style.display = 'none';
+
+            // Mostrar el overlay con el video
+            overlay.style.display = 'block';
+
+            var tiempo = 10;
             boton.innerHTML = tiempo;
 
             var intervalo = setInterval(function() {
@@ -206,8 +250,8 @@
                     boton.innerHTML = tiempo;
                 } else {
                     clearInterval(intervalo);
-                    cuadrado.style.display = 'block'; 
-                    boton.style.display = 'none'; 
+                    overlay.style.display = 'none'; // Ocultar el video y desvanecer
+                    cuadrado.style.display = 'block'; // Mostrar el contenedor
                     mostrarLetra();
                 }
             }, 1000);
