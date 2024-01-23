@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Dayanna❤️</title>
     <style>
-       body {
+        body {
             margin: 0;
             padding: 0;
             font-family: 'Arial', sans-serif;
             text-align: center;
             background-color: #1a1a1a;
-            color: #fff; 
+            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -102,14 +103,24 @@
             overflow: hidden;
             white-space: nowrap;
             opacity: 0;
-            animation: fadeInUp 1s forwards, fadeOut 1s forwards 4;
+            animation: fadeInUp 1s forwards, drawOn 3s forwards 6.5s;
+            position: relative;
+            /* Agregado para mantener la posición relativa */
         }
 
         .lyrics-line span {
             opacity: 0;
-            animation: paint 2s forwards;
-            display: block;
+            display: inline-block;
             margin: 5px 0;
+            transform: translateX(20%);
+            /* Ajustado para mover un poco más a la izquierda */
+        }
+
+        @keyframes drawOn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .overlay {
@@ -124,12 +135,20 @@
             animation: overlayFadeIn 2s forwards;
         }
 
-        #video {
-            width: 80%;
-            height: 80%;
+        .video-container {
+            display: flex;
+            position: absolute;
+            top: 10px;
+            width: calc(100% - 20px);
+            justify-content: space-between;
+        }
+
+        .video {
+            width: 150px;
+            height: auto;
             object-fit: cover;
             opacity: 0;
-            animation: fadeIn 2s forwards 2s, fadeOut 2s forwards 10s;
+            animation: fadeIn 2s forwards 4s, fadeOut 2s forwards 10s;
         }
 
         @keyframes paint {
@@ -143,6 +162,7 @@
                 opacity: 0;
                 transform: translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -153,6 +173,7 @@
             from {
                 opacity: 1;
             }
+
             to {
                 opacity: 0;
             }
@@ -162,6 +183,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -171,6 +193,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -180,6 +203,7 @@
             from {
                 opacity: 0;
             }
+
             to {
                 opacity: 1;
             }
@@ -200,6 +224,7 @@
         button:hover {
             background-color: #555;
         }
+
         .overlay-text {
             position: absolute;
             top: 50%;
@@ -212,34 +237,46 @@
             background-color: rgba(0, 0, 0, 0.8);
             padding: 15px;
             border-radius: 10px;
-            opacity: 1; /* Cambiado a 1 para que aparezca inmediatamente */
-            animation: fadeOut 3s forwards 3s; /* Agregado para la animación de desaparición en 3 segundos */
+            opacity: 1;
+            /* Cambiado a 1 para que aparezca inmediatamente */
+            animation: fadeOut 3s forwards 3s;
+            /* Agregado para la animación de desaparición en 3 segundos */
         }
 
         @keyframes fadeOut {
             from {
                 opacity: 1;
             }
+
             to {
                 opacity: 0;
             }
         }
     </style>
 </head>
+
 <body>
     <div id="particles-js"></div>
     <button onclick="iniciarConteo()">Presiona para comenzar</button>
 
     <div class="overlay" id="overlay">
-        <video id="video" autoplay loop muted>
-            <source src="Spotify.mp4" type="video/mp4">
-            Tu navegador no soporta el tag de video.
-        </video>
+        <div class="video-container">
+            <video class="video" autoplay loop muted>
+                <source src="Ella.mp4" type="video/mp4">
+                Tu navegador no soporta el tag de video.
+            </video>
+            <video class="video" autoplay loop muted>
+                <source src="Ella2.mp4" type="video/mp4">
+                Tu navegador no soporta el tag de video.
+            </video>
+        </div>
         <div class="overlay-text" id="overlay-text">NO QUIERO DEJARTE NUNCA MÁS</div>
-    </div>    
+    </div>
 
     <div class="container" id="cuadrado">
-        <img class="spotify-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" alt="Spotify Logo">
+        <img class="spotify-logo"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png"
+            alt="Spotify Logo">
         <div class="spotify-text">Spotify</div>
         <img class="small-image" src="Cancion1.jpg" alt="Cancion1">
         <div class="song-text">James Arthur - Car's Outside</div>
@@ -249,12 +286,13 @@
     <audio id="miAudio" src="Cancion1.mp3"></audio>
 
     <script>
-      function iniciarConteo() {
+        function iniciarConteo() {
             var boton = document.querySelector('button');
             var cuadrado = document.getElementById('cuadrado');
             var audio = document.getElementById('miAudio');
             var overlay = document.getElementById('overlay');
             var overlayText = document.getElementById('overlay-text');
+            var videos = document.querySelectorAll('.video');
 
             // Reproducir la música
             audio.play();
@@ -269,18 +307,24 @@
             var tiempo = 3;
             boton.innerHTML = tiempo;
 
-            var intervalo = setInterval(function() {
+            var intervalo = setInterval(function () {
                 if (tiempo > 0) {
                     tiempo--;
                     boton.innerHTML = tiempo;
                 } else {
                     clearInterval(intervalo);
-                    overlayText.style.animation = 'fadeOut 3s forwards 0s'; // Iniciar animación de desaparición
-                    setTimeout(function() {
-                        overlay.style.display = 'none'; // Ocultar el video y desvanecer
-                        cuadrado.style.display = 'block'; // Mostrar el contenedor
-                        cuadrado.style.animation = 'aparecerContenedor 1s ease forwards'; // Animación de aparición del contenedor
+                    overlayText.style.animation = 'fadeOut 3s forwards 0s';
+                    // Iniciar animación de desaparición
+                    setTimeout(function () {
+                        overlay.style.display = 'none';
+                        // Ocultar el video y desvanecer
+                        cuadrado.style.display = 'block';
+                        // Mostrar el contenedor
+                        cuadrado.style.animation = 'aparecerContenedor 1s ease forwards';
+                        // Animación de aparición del contenedor
                         mostrarLetra();
+                        // Reproducir videos
+                        videos.forEach(video => video.play());
                     }, 3000);
                 }
             }, 1000);
@@ -289,8 +333,17 @@
         function mostrarLetra() {
             var lyricsContainer = document.getElementById('lyrics-container');
             var lyrics = [
-                "I'm sorry, but I don't have the lyrics for this song.",
-                // ... Agrega las líneas de letras de tu canción aquí ...
+                "¿Por qué dices que siempre me voy?", // este normal dejalo 
+                "Cuando estás durmiendo sola", //Que aparezca en 1.90segundos
+                "Pero el coche que llamaste está afuera", //Que aparezca en 2.10segundos
+                "Pero no quiero irme esta noche", //Que aparezca en 2.10segundos
+                "No voy a entrar a tu Ciudad", //Que aparezca en 2.10segundos
+                "A menos que hagas las maletas", //Que aparezca en 2.10segundos
+                "Y te vengas conmigo", //Que aparezca en 2.10segundos
+                "Estoy cansado de amarte de lejos", //Que aparezca en 2.10segundos
+                "El nunca estar, donde tú estás", //Que aparezca en 2.10segundos
+                "Cierro puertas, cierro ventanas", //Que aparezca en 2.10segundos
+                "NO QUIERO DEJARTE NUNCA MÁS", //Que aparezca en 2.10segundos
             ];
 
             function mostrarLinea(index) {
@@ -302,60 +355,20 @@
 
                 lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
 
-                setTimeout(function() {
+                setTimeout(function () {
                     letra.style.opacity = 1;
                     letra.querySelector('span').style.animation = 'paint 2s forwards';
-                }, 1000 * index);
+                }, 2000 * index);
             }
 
-            for (var i = 0; i < lyrics.length; i++) {
-                setTimeout(mostrarLinea.bind(null, i), 2000 * i);
-            }
+            // Esperar 4.90 segundos antes de comenzar a mostrar las letras
+            setTimeout(function () {
+                for (var i = 0; i < lyrics.length; i++) {
+                    mostrarLinea(i);
+                }
+            }, 4900);
         }
-
-        audio.addEventListener('loadedmetadata', function() {
-            var duracionTotal = audio.duration;
-
-            cuadrado.style.display = 'block';
-            boton.style.display = 'none';
-            mostrarLetra();
-
-            velocidadAnimacion = duracionTotal / lyrics.length;
-
-            // Ocultar el video de Spotify después de 5 segundos
-            setTimeout(function() {
-                document.getElementById('video').style.display = 'none';
-            }, 5000);
-        });
-
-        function mostrarLetra() {
-    var lyricsContainer = document.getElementById('lyrics-container');
-    var lyrics = [
-        "NO QUIERO DEJARTE NUNCA MAS",
-        ""
-    ];
-
-    function mostrarLinea(index) {
-        var linea = lyrics[index];
-        var letra = document.createElement('div');
-        letra.className = 'lyrics-line fade-in-bottom';
-        letra.innerHTML = "<span>" + linea + "</span>";
-        lyricsContainer.appendChild(letra);
-
-        lyricsContainer.scrollTop = lyricsContainer.scrollHeight;
-
-        setTimeout(function () {
-            letra.style.opacity = 1;
-            letra.querySelector('span').style.animation = 'paint 2s forwards';
-        }, 1000 * index);
-    }
-
-    for (var i = 0; i < lyrics.length; i++) {
-        setTimeout(mostrarLinea.bind(null, i), 2000 * i);
-    }
-}
-
-
     </script>
 </body>
+
 </html>
